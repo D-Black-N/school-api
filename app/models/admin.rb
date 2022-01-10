@@ -1,7 +1,10 @@
+# модель администратора для входа в админку
 class Admin < ApplicationRecord
 
-  validates :name,  presence: true, length: { maximum: 20 }
-  validates :password, presence: true, length: { minimum: 6 }
+    # валидация полей модели 
+    validates :name,  presence: true, length: { maximum: 20 }
+    validates :password, presence: true, length: { minimum: 6 }
 
-  has_secure_password
+    # шифрование пароля
+    has_secure_password
 end

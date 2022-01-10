@@ -1,12 +1,22 @@
 class Api::V1::AdminController < ApplicationController
 
-  def autorize
+  def index
     admin = Admin.find_by(name: params[:name])
     if admin && admin.authenticate(params[:password])
-      render json: { admin: admin.name }
+      render json: { admin: [admin.name, admin.id] }
     else
       render json: { message: 'Неверный логин или пароль' }
     end
+  end
+
+  def update
+    admin = Admin.find(params[:id])
+    if params[:admin].has_key? 'password'
+      admin.update(update_admin)
+    else
+      admin.update(name: params[:admin][:name])
+    end
+    render json: admin
   end
 
   def subjects
@@ -37,5 +47,9 @@ class Api::V1::AdminController < ApplicationController
   
   def permit_autorization_params
     params.require(:admin).permit(:name, :password)
+  end
+
+  def update_admin
+    params.require(:admin).permit(:name, :password, :password_confirmation)
   end
 end
