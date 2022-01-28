@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 2022_01_05_170502) do
 
   create_table "subjects", force: :cascade do |t|
     t.string "name", null: false
-    t.index ["name"], name: "index_subjects_on_name"
   end
 
   create_table "teacher_subjects", force: :cascade do |t|

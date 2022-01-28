@@ -1,16 +1,22 @@
+# контроллер администратора
 class Api::V1::AdminController < ApplicationController
 
-  def index
+  # Получение данных об администраторе при авторизации
+  # GET admin
+  def autorize
+    p params
     admin = Admin.find_by(name: params[:name])
     if admin && admin.authenticate(params[:password])
-      render json: { admin: [admin.name, admin.id] }
+      render json: { admin: [admin.id, admin.name] }
     else
       render json: { message: 'Неверный логин или пароль' }
     end
   end
 
+  # Обновление учетной записи администратора
+  # POST admins
   def update
-    admin = Admin.find(params[:id])
+    # admin = Admin.find(params[:id])
     if params[:admin].has_key? 'password'
       admin.update(update_admin)
     else
@@ -19,35 +25,7 @@ class Api::V1::AdminController < ApplicationController
     render json: admin
   end
 
-  def subjects
-    subjects = [
-      {id: 1, name: "Математика"},
-      {id: 2, name: "Русский язык"},
-      {id: 3, name: "Литература"},
-      {id: 4, name: "Физика"},
-    ]
-    render json: subjects 
-  end
-
-  def teachers
-    subjects = [
-      {id: 1, name: "Математика"},
-      {id: 2, name: "Русский язык"},
-      {id: 3, name: "Литература"},
-      {id: 4, name: "Физика"},
-    ]
-    teachers = [
-      {id: 1, fio: "Синицын А.А", lessons: [subjects[0][:name], subjects[3][:name]]},
-      {id: 2, fio: "Петров А.А", lessons: [subjects[1][:name], subjects[2][:name]]},
-    ]
-    render json: teachers
-  end
-
-  private
-  
-  def permit_autorization_params
-    params.require(:admin).permit(:name, :password)
-  end
+private
 
   def update_admin
     params.require(:admin).permit(:name, :password, :password_confirmation)

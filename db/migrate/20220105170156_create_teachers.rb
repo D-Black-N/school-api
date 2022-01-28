@@ -1,10 +1,8 @@
 class CreateTeachers < ActiveRecord::Migration[6.1]
   def change
     create_table :teachers do |t|
-      t.string :fio
+      t.string :fio, index: true
 
     end
-
-    add_index :teachers, :fio
   end
 end

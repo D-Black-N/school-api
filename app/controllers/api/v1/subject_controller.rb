@@ -1,25 +1,29 @@
 # Контроллер учебных предметов
-class SubjectController < ApplicationController
+class Api::V1::SubjectController < ApplicationController
 
-  # метод получения всех записей учебных предметов из базы данных
+  # метод получения всех записей учебных предметов из базы данных 
+  # GET subjects
   def index
     subjects = Subject.all
     render json: subjects
   end
 
   # метод создания записи нового учебного предмета
-  def create 
+  # POST subjects
+  def create
     subject = Subject.new(subject_param)
     if subject.save
       render json: subject
     else
+      subject.errors
       render json: subject.errors
     end 
   end
 
   # метод обновления записи об учебном предмете
+  # PATCH subject
   def update
-    subject = Subject.find(params[:subject][:id])
+    subject = Subject.find(params[:id])
     if subject.update(subject_param)
       render json: subject
     else
@@ -27,12 +31,13 @@ class SubjectController < ApplicationController
     end
   end
 
+  # Удаление учебного предмета из списка
+  # DELETE subject
   def destroy
-    key = DestroySubject.call(params[:subject][:id])
-    if key
-      render json: 'deleted successfully'
+    if DestroySubject.call(params[:id])
+      render json: 'Предмет успешно удален!'
     else
-      render json: 'not found subject'
+      render json: 'Ошибка удаления!'
     end
   end
 
