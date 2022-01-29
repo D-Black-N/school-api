@@ -34,7 +34,7 @@ class Api::V1::SubjectController < ApplicationController
   # Удаление учебного предмета из списка
   # DELETE subject
   def destroy
-    if DestroySubject.call(params[:id])
+    if SubjectServices::Destroy.call(params[:id])
       render json: 'Предмет успешно удален!'
     else
       render json: 'Ошибка удаления!'

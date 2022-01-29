@@ -4,7 +4,6 @@ class Api::V1::AdminController < ApplicationController
   # Получение данных об администраторе при авторизации
   # GET admin
   def autorize
-    p params
     admin = Admin.find_by(name: params[:name])
     if admin && admin.authenticate(params[:password])
       render json: { admin: [admin.id, admin.name] }
