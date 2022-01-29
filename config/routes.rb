@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   namespace :api do 
     namespace :v1 do
-      resources :admin, only: [:update]
+      resources :admin, only: [:update, :edit]
       resources :subject, only: [:index, :create, :update, :destroy]
       resources :teacher, only: [:index, :create, :update, :destroy]
       resources :lesson, only: [:index, :create, :update, :destroy]
+      
       post '/autorize', to: 'admin#autorize'
     end
   end 

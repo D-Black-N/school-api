@@ -1,27 +1,32 @@
 # контроллер администратора
 class Api::V1::AdminController < ApplicationController
 
-  # Получение данных об администраторе при авторизации
-  # GET admin
+  # Получение данных администраторе при авторизации
+  # POST autorization
   def autorize
     admin = Admin.find_by(name: params[:name])
     if admin && admin.authenticate(params[:password])
-      render json: { admin: [admin.id, admin.name] }
+      render json: { admin: admin.id }
     else
       render json: { message: 'Неверный логин или пароль' }
     end
   end
 
+  # Получения данных для изменения аккаунта администратора
+  # GET admin/:id/edit
+  def edit
+    render json: Admin.find(params[:id])
+  end
+
   # Обновление учетной записи администратора
-  # POST admins
+  # POST admin
   def update
-    # admin = Admin.find(params[:id])
-    if params[:admin].has_key? 'password'
-      admin.update(update_admin)
+    admin = Admin.find(params[:id])
+    if admin.update(update_admin)
+      render json: admin.name
     else
-      admin.update(name: params[:admin][:name])
+      render json: admin.errors
     end
-    render json: admin
   end
 
 private

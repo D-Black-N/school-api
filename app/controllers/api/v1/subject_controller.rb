@@ -15,7 +15,6 @@ class Api::V1::SubjectController < ApplicationController
     if subject.save
       render json: subject
     else
-      subject.errors
       render json: subject.errors
     end 
   end
